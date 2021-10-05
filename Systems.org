@@ -127,10 +127,29 @@ sudo -E guix system -L ~/.dotfiles/.config/guix/systems reconfigure ~/.dotfiles/
 
 Define the =base-operating-system= which will be inherited by all machine configurations.
 
-#+begin_src scheme :tangle .config/guix/systems/base-system.scm
+# #+begin_src scheme :tangle .config/guix/systems/base-system.scm
 
-(define-public base-operating-system
-  (operating-system
+# (define-public base-operating-system
+#   )
+
+# #+end_src
+
+** Machines
+
+*** dell
+
+=dell= is a 5th Generation ThinkPad X1 Carbon that I use for system testing and Guix demonstrations for System Crafters.
+
+*.config/guix/systems/dell.scm:*
+
+#+begin_src scheme :tangle .config/guix/systems/dell.scm
+
+;; NOTE: This file is generated from ~/.dotfiles/System.org.  Please see commentary there.
+
+(define-module (dell)
+  (use-modules (base-system)
+  (gnu)))
+(operating-system
     (host-name "guix")
     (timezone "America/New_York")
         (locale "en_US.utf8")
@@ -154,13 +173,18 @@ Define the =base-operating-system= which will be inherited by all machine config
 
     ;; Guix doesn't like it when there isn't a file-systems
     ;; entry, so add one that is meant to be overridden
+
     (file-systems (cons*
-                   (file-system
-                     (mount-point "/tmp")
-                     (device "none")
-                     (type "tmpfs")
-                     (check? #f))
-                   %base-file-systems))
+                (file-system
+                 (device "/dev/sda2")
+                 (mount-point "/")
+                 (type "ext4"))
+                (file-system
+                 (device "/dev/sda1")
+                 (mount-point "/boot/efi")
+                 (type "vfat"))
+                 %base-file-systems))
+
 
     (users (cons (user-account
                   (name "dhyan")
@@ -235,39 +259,7 @@ Define the =base-operating-system= which will be inherited by all machine config
                                 (list cups-filters))))))
 
     ;; Allow resolution of '.local' host names with mDNS
-    (name-service-switch %mdns-host-lookup-nss)))
+    (name-service-switch %mdns-host-lookup-nss))
 
-#+end_src
-
-** Machines
-
-*** dell
-
-=dell= is a 5th Generation ThinkPad X1 Carbon that I use for system testing and Guix demonstrations for System Crafters.
-
-*.config/guix/systems/dell.scm:*
-
-#+begin_src scheme :tangle .config/guix/systems/dell.scm
-
-;; NOTE: This file is generated from ~/.dotfiles/System.org.  Please see commentary there.
-
-(define-module (dell)
-  (use-modules (base-system)
-  (gnu)))
-
-(operating-system
- (inherit base-operating-system)
- (host-name "guix")
-
- (file-systems (cons*
-                (file-system
-                 (device "/dev/sda2")
-                 (mount-point "/")
-                 (type "ext4"))
-                (file-system
-                 (device "/dev/sda1")
-                 (mount-point "/boot/efi")
-                 (type "vfat"))
-                %base-file-systems)))
 
 #+end_src
