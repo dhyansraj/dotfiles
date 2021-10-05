@@ -252,8 +252,8 @@ Define the =base-operating-system= which will be inherited by all machine config
 ;; NOTE: This file is generated from ~/.dotfiles/System.org.  Please see commentary there.
 
 (define-module (dell)
-  #:use-module (base-system)
-  #:use-module (gnu))
+  (use-modules (base-system)
+  (gnu)))
 
 (operating-system
  (inherit base-operating-system)
