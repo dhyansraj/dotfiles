@@ -127,7 +127,9 @@ sudo -E guix system -L ~/.dotfiles/.config/guix/systems reconfigure ~/.dotfiles/
 
 Define the =base-operating-system= which will be inherited by all machine configurations.
 
-#+begin_src scheme :tangle .config/guix/systems/base-system.scm
+#+begin_src scheme
+
+;; :tangle .config/guix/systems/base-system.scm
 
 (define-public base-operating-system
   (operating-system
@@ -252,8 +254,8 @@ Define the =base-operating-system= which will be inherited by all machine config
 ;; NOTE: This file is generated from ~/.dotfiles/System.org.  Please see commentary there.
 
 (define-module (dell)
-  (use-modules (base-system)
-  (gnu)))
+  #:use-module (base-system)
+  #:use-module  (gnu))
 
 (operating-system
  (inherit base-operating-system)
